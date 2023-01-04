@@ -1,0 +1,25 @@
+{
+    "description": "Reference data importer based on Swisscom.AliceConnector",
+    "type": "neos-package",
+    "name": "swisscom/referencedataimport",
+    "license": "MIT",
+    "require": {
+        "neos/flow": "^4.0 || ^5.0 || ^6.0 || ^7.0",
+        "swisscom/aliceconnector": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Swisscom\\ReferenceDataImport\\": "Classes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Swisscom\\ReferenceDataImport\\Tests\\": "Tests/"
+        }
+    },
+    "extra": {
+        "neos": {
+            "package-key": "Swisscom.ReferenceDataImport"
+        }
+    }
+}

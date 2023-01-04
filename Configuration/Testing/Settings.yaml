@@ -1,0 +1,4 @@
+Swisscom:
+  AliceConnector:
+    fixtureSets:
+      referenceData: '%FLOW_PATH_PACKAGES%Application/Swisscom.ReferenceDataImport/Tests/Functional/Fixture/Alice/{name}.yaml'

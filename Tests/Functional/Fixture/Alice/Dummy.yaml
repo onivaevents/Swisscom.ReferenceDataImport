@@ -1,0 +1,5 @@
+Swisscom\ReferenceDataImport\Tests\Functional\Fixture\Dummy:
+  dummyFoo:
+    property: 'Foo'
+  dummyBar:
+    property: 'Bar'
