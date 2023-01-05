@@ -65,7 +65,8 @@ class ReferenceDataCommandController extends CommandController
                 continue;
             }
 
-            if ($existingObject = $this->getRepository($object)->findByReferenceDataEntity($object)) {
+            $repository = $this->getRepository($object);
+            if ($existingObject = $repository->findByReferenceDataEntity($object)) {
                 $properties = $this->reflectionService->getPropertyNamesByAnnotation(
                     $existingObject::class,
                     Updatable::class
@@ -76,7 +77,7 @@ class ReferenceDataCommandController extends CommandController
                         $value = ObjectAccess::getProperty($object, $property, true);
                         ObjectAccess::setProperty($existingObject, $property, $value);
                     }
-                    $this->persistenceManager->update($existingObject);
+                    $repository->update($existingObject);
                     $message = 'properties updated';
                 } else {
                     $this->signalEmitter->emitBeforeSkip($existingObject, $object);
@@ -86,7 +87,7 @@ class ReferenceDataCommandController extends CommandController
                 $this->outputLine('ReferenceData entity "%s" id "%s": %s', [$existingObject::class, $id, $message]);
             } else {
                 $this->signalEmitter->emitBeforeAdd($object);
-                $this->persistenceManager->add($object);
+                $repository->add($object);
                 $this->outputLine('ReferenceData entity "%s": object added', [$object::class]);
             }
         }
@@ -94,17 +95,21 @@ class ReferenceDataCommandController extends CommandController
         $this->signalEmitter->emitBeforePersist();
     }
 
-    private function getRepository(object $object): ReferenceDataRepositoryInterface
+    /**
+     * @param object $object
+     * @return RepositoryInterface&ReferenceDataRepositoryInterface
+     * @throws Exception
+     */
+    private function getRepository(object $object): RepositoryInterface
     {
         $repositoryClassName = (string)preg_replace(
             ['/\\\Model\\\/', '/$/'],
             ['\\Repository\\', 'Repository'],
             get_class($object)
         );
-        /** @var RepositoryInterface $repository */
         $repository = $this->objectManager->get($repositoryClassName);
 
-        if (! $repository instanceof ReferenceDataRepositoryInterface) {
+        if (!($repository instanceof ReferenceDataRepositoryInterface && $repository instanceof RepositoryInterface)) {
             throw new Exception(sprintf(
                 'The repository "%s" should implement "%s"',
                 $repository::class,
