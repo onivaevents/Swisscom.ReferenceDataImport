@@ -5,22 +5,21 @@ declare(strict_types=1);
 namespace Swisscom\ReferenceDataImport\Tests\Functional;
 
 use Neos\Flow\Cli\ConsoleOutput;
+use Neos\Flow\ObjectManagement\ObjectManagerInterface;
 use Neos\Flow\Persistence\PersistenceManagerInterface;
 use Neos\Flow\Tests\FunctionalTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use Swisscom\ReferenceDataImport\Command\ReferenceDataCommandController;
 use Swisscom\ReferenceDataImport\ReferenceDataRepositoryInterface;
+use Swisscom\ReferenceDataImport\Tests\Functional\Fixture\DummyRepository;
 
 class ReferenceDataCommandControllerTest extends FunctionalTestCase
 {
     /** @var ReferenceDataCommandController  */
     protected $obj;
 
-    /** @var PersistenceManagerInterface&MockObject */
-    protected PersistenceManagerInterface $persistenceManagerMock;
-
     /** @var ReferenceDataRepositoryInterface&MockObject */
-    protected ReferenceDataRepositoryInterface $referenceDataRepository;
+    protected ReferenceDataRepositoryInterface $dummyRepositoryMock;
 
     protected function setUp(): void
     {
@@ -29,10 +28,12 @@ class ReferenceDataCommandControllerTest extends FunctionalTestCase
         $this->obj = $this->objectManager->get(ReferenceDataCommandController::class);
 
         $this->inject($this->obj, 'output', $this->createMock(ConsoleOutput::class));
-        $this->persistenceManagerMock = $this->createMock(PersistenceManagerInterface::class);
-        $this->inject($this->obj, 'persistenceManager', $this->persistenceManagerMock);
 
-        $this->referenceDataRepository = $this->createMock(ReferenceDataRepositoryInterface::class);
+        $this->dummyRepositoryMock = $this->createMock(DummyRepository::class);
+        $objectManagerMock = $this->createMock(ObjectManagerInterface::class);
+        $objectManagerMock->expects(self::exactly(2))->method('get')->with(DummyRepository::class)
+            ->willReturn($this->dummyRepositoryMock);
+        $this->inject($this->obj, 'objectManager', $objectManagerMock);
     }
 
     /**
@@ -40,8 +41,8 @@ class ReferenceDataCommandControllerTest extends FunctionalTestCase
      */
     public function importNewObjectsTest(): void
     {
-        $this->persistenceManagerMock->expects(self::never())->method('update');
-        $this->persistenceManagerMock->expects(self::exactly(2))->method('add');
+        $this->dummyRepositoryMock->expects(self::never())->method('update');
+        $this->dummyRepositoryMock->expects(self::exactly(2))->method('add');
 
         $this->obj->importCommand('Dummy');
     }

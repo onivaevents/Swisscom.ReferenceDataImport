@@ -47,12 +47,11 @@ class ReferenceDataCommandControllerTest extends UnitTestCase
         $this->obj = new ReferenceDataCommandController();
 
         $this->inject($this->obj, 'output', $this->createMock(ConsoleOutput::class));
+        $this->inject($this->obj, 'persistenceManager', $this->createMock(PersistenceManagerInterface::class));
         $this->context = $this->createMock(Context::class);
         $this->inject($this->obj, 'context', $this->context);
         $this->objectManager = $this->createMock(ObjectManagerInterface::class);
         $this->inject($this->obj, 'objectManager', $this->objectManager);
-        $this->persistenceManager = $this->createMock(PersistenceManagerInterface::class);
-        $this->inject($this->obj, 'persistenceManager', $this->persistenceManager);
         $this->reflectionService = $this->createMock(ReflectionService::class);
         $this->inject($this->obj, 'reflectionService', $this->reflectionService);
         $this->signalEmitter = $this->createMock(SignalEmitter::class);
@@ -81,8 +80,8 @@ class ReferenceDataCommandControllerTest extends UnitTestCase
             ->with($fixture)
             ->willReturn(null);
 
-        $this->persistenceManager->expects(self::never())->method('update')->with($fixture);
-        $this->persistenceManager->expects(self::once())->method('add')->with($fixture);
+        $this->referenceDataRepository->expects(self::never())->method('update')->with($fixture);
+        $this->referenceDataRepository->expects(self::once())->method('add')->with($fixture);
         $this->signalEmitter->expects(self::never())->method('emitBeforeUpdate');
         $this->signalEmitter->expects(self::once())->method('emitBeforeAdd')->with($fixture);
         $this->signalEmitter->expects(self::once())->method('emitBeforePersist');
@@ -114,8 +113,8 @@ class ReferenceDataCommandControllerTest extends UnitTestCase
             ->willReturn($fixtureExisting);
         $this->reflectionService->expects(self::once())->method('getPropertyNamesByAnnotation')->willReturn(['property']);
 
-        $this->persistenceManager->expects(self::once())->method('update')->with($fixture);
-        $this->persistenceManager->expects(self::never())->method('add')->with($fixture);
+        $this->referenceDataRepository->expects(self::once())->method('update')->with($fixture);
+        $this->referenceDataRepository->expects(self::never())->method('add')->with($fixture);
         $this->signalEmitter->expects(self::once())->method('emitBeforeUpdate')->with($fixtureExisting, $fixture);
         $this->signalEmitter->expects(self::never())->method('emitBeforeAdd');
         $this->signalEmitter->expects(self::once())->method('emitBeforePersist');
