@@ -22,6 +22,15 @@ class SignalEmitter
 
     /**
      * @Flow\Signal
+     * @param object $existingObject
+     * @param object $newObject
+     */
+    public function emitBeforeSkip($existingObject, $newObject): void
+    {
+    }
+
+    /**
+     * @Flow\Signal
      * @param object $object
      */
     public function emitBeforeAdd($object): void

@@ -79,6 +79,7 @@ class ReferenceDataCommandController extends CommandController
                     $this->persistenceManager->update($existingObject);
                     $message = 'properties updated';
                 } else {
+                    $this->signalEmitter->emitBeforeSkip($existingObject, $object);
                     $message = 'no updatable properties';
                 }
                 $id = $this->persistenceManager->getIdentifierByObject($existingObject);
