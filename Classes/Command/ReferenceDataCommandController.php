@@ -95,12 +95,7 @@ class ReferenceDataCommandController extends CommandController
         $this->signalEmitter->emitBeforePersist();
     }
 
-    /**
-     * @param object $object
-     * @return RepositoryInterface&ReferenceDataRepositoryInterface
-     * @throws Exception
-     */
-    private function getRepository(object $object): RepositoryInterface
+    private function getRepository(object $object): ReferenceDataRepositoryInterface
     {
         $repositoryClassName = (string)preg_replace(
             ['/\\\Model\\\/', '/$/'],
@@ -109,11 +104,11 @@ class ReferenceDataCommandController extends CommandController
         );
         $repository = $this->objectManager->get($repositoryClassName);
 
-        if (!($repository instanceof ReferenceDataRepositoryInterface && $repository instanceof RepositoryInterface)) {
+        if (!($repository instanceof ReferenceDataRepositoryInterface)) {
             throw new Exception(sprintf(
                 'The repository "%s" should implement "%s"',
                 $repository::class,
-                ReferenceDataRepositoryInterface::class
+                ReferenceDataRepositoryInterface::class,
             ));
         }
 
