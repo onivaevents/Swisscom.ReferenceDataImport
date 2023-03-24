@@ -13,6 +13,13 @@ class SignalEmitter
 {
     /**
      * @Flow\Signal
+     */
+    public function emitBeforeLoadFixture(): void
+    {
+    }
+
+    /**
+     * @Flow\Signal
      * @param object $existingObject
      * @param object $newObject
      */

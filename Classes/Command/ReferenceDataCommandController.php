@@ -8,7 +8,6 @@ use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Cli\CommandController;
 use Neos\Flow\ObjectManagement\ObjectManagerInterface;
 use Neos\Flow\Persistence\PersistenceManagerInterface;
-use Neos\Flow\Persistence\RepositoryInterface;
 use Neos\Flow\Reflection\ReflectionService;
 use Neos\Utility\ObjectAccess;
 use Swisscom\AliceConnector\Context;
@@ -56,6 +55,8 @@ class ReferenceDataCommandController extends CommandController
 
     public function importCommand(string $fixtureName): void
     {
+        $this->signalEmitter->emitBeforeLoadFixture();
+
         $objects = $this->context->loadFixture($fixtureName, 'referenceData');
 
         foreach ($objects as $object) {
