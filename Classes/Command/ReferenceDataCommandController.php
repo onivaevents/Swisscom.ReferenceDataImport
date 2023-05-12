@@ -48,13 +48,23 @@ class ReferenceDataCommandController extends CommandController
      */
     protected $signalEmitter;
 
+    /**
+     * @Flow\InjectConfiguration(path="defaultFixtureName")
+     * @var string
+     */
+    protected $defaultFixtureName;
+
     protected function initializeObject(): void
     {
         $this->context = new Context($this->objectManager, false);
     }
 
-    public function importCommand(string $fixtureName): void
+    public function importCommand(?string $fixtureName = null): void
     {
+        if ($fixtureName === null) {
+            $fixtureName = $this->defaultFixtureName;
+        }
+
         $this->signalEmitter->emitBeforeLoadFixture();
 
         $objects = $this->context->loadFixture($fixtureName, 'referenceData');

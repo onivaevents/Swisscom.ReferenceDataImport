@@ -1,4 +1,6 @@
 Swisscom:
+  ReferenceDataImport:
+    defaultFixtureName: 'Default'
   AliceConnector:
     fixtureSets:
       referenceData: ~
