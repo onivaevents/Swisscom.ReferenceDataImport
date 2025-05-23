@@ -1,6 +1,6 @@
 # Alice based reference data import
 
-Neos Flow package to import reference data into your project based on [Swisscom.AliceConnector](https://github.com/swisscomeventandmedia/Swisscom.AliceConnector).
+Neos Flow package to import reference data into your project based on [Swisscom.AliceConnector](https://github.com/onivaevents/Swisscom.AliceConnector).
 
 This allows to define the reference data in YAML, JSON or PHP files. YAML example:
 
@@ -17,7 +17,7 @@ Your\Package\Domain\Model\Vat:
     rate: '3.5'
 ```
 
-See the readme in [Swisscom.AliceConnector](https://github.com/swisscomeventandmedia/Swisscom.AliceConnector) or [Alice](https://github.com/nelmio/alice) for further documentation.
+See the readme in [Swisscom.AliceConnector](https://github.com/onivaevents/Swisscom.AliceConnector) or [Alice](https://github.com/nelmio/alice) for further documentation.
 
 
 ## Getting started

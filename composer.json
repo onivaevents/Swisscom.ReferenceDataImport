@@ -4,7 +4,7 @@
     "name": "swisscom/referencedataimport",
     "license": "MIT",
     "require": {
-        "neos/flow": "^4.0 || ^5.0 || ^6.0 || ^7.0",
+        "neos/flow": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0",
         "swisscom/aliceconnector": "*"
     },
     "autoload": {
@@ -20,6 +20,17 @@
     "extra": {
         "neos": {
             "package-key": "Swisscom.ReferenceDataImport"
-        }
+        },
+        "applied-flow-migrations": [
+            "Neos.Flow-20180415105700",
+            "Neos.Flow-20190425144900",
+            "Neos.Flow-20190515215000",
+            "Neos.Flow-20200813181400",
+            "Neos.Flow-20201003165200",
+            "Neos.Flow-20201109224100",
+            "Neos.Flow-20201205172733",
+            "Neos.Flow-20201207104500",
+            "Neos.Flow-20220318174300"
+        ]
     }
 }
